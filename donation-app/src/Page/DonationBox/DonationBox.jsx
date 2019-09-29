@@ -7,29 +7,27 @@ export default class DonationBox extends Component {
             totalNeeded: 1000,
             totalReached: 0,
             donationsCount: 43,
-            amountToDonate: 50,
-            value: 0,
+            amountToDonate: 0,
         };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        //this.handleChange = this.handleChange.bind(this);
+        //this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
         this.setState({
-            value: this.state.amountToDonate,
+            amountToDonate: 50,
             totalReached: 300,
         });
     }
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
-    }
+    handleChange = (event) => {
+        this.setState({amountToDonate: Number(event.target.value)});
+    };
 
     handleSubmit = (event) => {
-        this.setState({
-            totalReached: this.state.totalReached + this.state.value,
-        });
+        const totalReached = this.state.totalReached + this.state.amountToDonate;
+        this.setState({totalReached});
         event.preventDefault();
     };
 
@@ -42,12 +40,12 @@ export default class DonationBox extends Component {
                 <div className="card">
                     <p>Amount donated so far: ${this.state.totalReached}</p>
                     <p>Needed amount left: ${totalLeft}</p>
-                    <p>Add to the <b>{this.state.donationsCount}</b>   other donations that kind people like yourself already contributed.</p>
+                    <p>Add to the <b>{this.state.donationsCount}</b> other donations that kind people like yourself already contributed.</p>
 
                         <form id="da-form-donation" onSubmit={this.handleSubmit}>
                             <label>
                                 $
-                                <input type="number" value={this.state.value} onChange={this.handleChange} />
+                                <input name="amount" type="number" value={this.state.amountToDonate} onChange={this.handleChange} />
                             </label>
                             <button type="button" className="da-success" onClick={this.handleSubmit}>Give Now</button>
                         </form>
